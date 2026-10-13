@@ -1,0 +1,17 @@
+FROM composer:2.6.5 AS composer
+
+FROM php:8.2.16-fpm-bookworm AS development
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git unzip libicu-dev libzip-dev libpng-dev libjpeg62-turbo-dev \
+        libfreetype6-dev wkhtmltopdf fonts-dejavu-core \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" intl pdo_mysql zip gd \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY build/php/dev.ini /usr/local/etc/php/conf.d/sembrar-dev.ini
+
+WORKDIR /var/www/symfony
+CMD ["php-fpm"]
