@@ -1,6 +1,7 @@
 # Sembrar: entorno local de desarrollo
 
 Necesitás Git y Docker Desktop iniciado (o Docker Engine con Compose v2.20+).
+Configurá tu clave SSH en GitHub y verificá que tengas acceso a ambos repositorios.
 No necesitás instalar PHP, Composer, Node ni MySQL en tu computadora.
 En Windows, usá WSL2 con integración de Docker habilitada.
 En Linux podés ejecutar el script con sudo o directamente como root.
@@ -8,9 +9,9 @@ En Linux podés ejecutar el script con sudo o directamente como root.
 ## Primer inicio
 
 ```sh
-git clone https://github.com/mpucineri/sembrar-dep-dev.git
+git clone git@github.com:mpucineri/sembrar-dep-dev.git
 cd sembrar-dep-dev
-git clone https://github.com/CostanzoPablo/sembrar.git
+git clone git@github.com:CostanzoPablo/sembrar.git
 sudo sh dev.sh
 ```
 
