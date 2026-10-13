@@ -3,7 +3,7 @@
 Necesitás Git y Docker Desktop iniciado (o Docker Engine con Compose v2.20+).
 No necesitás instalar PHP, Composer, Node ni MySQL en tu computadora.
 En Windows, usá WSL2 con integración de Docker habilitada.
-En Linux, tu usuario debe poder ejecutar Docker sin sudo.
+En Linux podés ejecutar el script con sudo o directamente como root.
 
 ## Primer inicio
 
@@ -11,11 +11,15 @@ En Linux, tu usuario debe poder ejecutar Docker sin sudo.
 git clone https://github.com/mpucineri/sembrar-dep-dev.git
 cd sembrar-dep-dev
 git clone https://github.com/CostanzoPablo/sembrar.git
-sh dev.sh
+sudo sh dev.sh
 ```
 
 Abrí **http://localhost:8002** cuando el script diga “Proyecto listo”.
 La primera ejecución necesita Internet y puede tardar varios minutos.
+Si ya sos root, usá `sh dev.sh`, sin sudo.
+Con sudo, las dependencias, assets y archivos de Symfony pertenecen al usuario
+que lo invocó; como root directamente, pertenecen a root.
+MySQL conserva sus propios permisos. El script ajusta los permisos necesarios.
 
 Usuario administrador local: `admin@sembrar.local`.
 Contraseña inicial: `sembrar-dev`.
@@ -31,16 +35,17 @@ La cola propia de correos no se procesa: el emisor externo no está incluido.
 ## Uso diario
 
 ```sh
-sh dev.sh         # Iniciar o actualizar dependencias, esquema y assets
-sh dev.sh stop    # Detener, conservando los datos
-sh dev.sh logs    # Ver logs; Ctrl+C termina la visualización
-sh dev.sh status  # Ver el estado de los servicios
+sudo sh dev.sh         # Iniciar o actualizar dependencias, esquema y assets
+sudo sh dev.sh stop    # Detener, conservando los datos
+sudo sh dev.sh logs    # Ver logs; Ctrl+C termina la visualización
+sudo sh dev.sh status  # Ver el estado de los servicios
 ```
 
 Editá el código dentro de `sembrar/`: PHP y Twig toman los cambios directamente.
 JavaScript y CSS se recompilan automáticamente; recargá el navegador para verlos.
 Después de actualizar repositorios o cambiar entidades/dependencias,
-volvé a ejecutar `sh dev.sh`. La sincronización puede modificar tablas locales;
+volvé a ejecutar `sudo sh dev.sh` (o `sh dev.sh` como root).
+La sincronización puede modificar tablas locales;
 este flujo no sustituye las migraciones de producción.
 
 ## Archivos locales
@@ -68,13 +73,13 @@ No borres `.dev/mysql/` si querés conservar la base local.
 
 ## Opciones y problemas frecuentes
 
-Si el puerto está ocupado: `DEV_PORT=8003 sh dev.sh`.
+Si el puerto está ocupado: `sudo DEV_PORT=8003 sh dev.sh`.
 Para hacerlo permanente, editá `DEV_PORT` en `.dev/compose.env`.
 Para otro administrador, en el primer inicio:
-`DEV_ADMIN_EMAIL=yo@example.test DEV_ADMIN_PASSWORD=mi-clave sh dev.sh`.
-Si falla, revisá el error y `sh dev.sh logs`; corregilo y repetí `sh dev.sh`.
+`sudo DEV_ADMIN_EMAIL=yo@example.test DEV_ADMIN_PASSWORD=mi-clave sh dev.sh`.
+Como root, omití sudo en estos comandos.
+Si falla, revisá el error y `sudo sh dev.sh logs`; corregilo y repetí el inicio.
 Si Docker no responde, iniciá Docker Desktop o el servicio Docker.
-No ejecutes el script con sudo: las dependencias deben pertenecer a tu usuario.
 
 Versiones: PHP 8.2.16, Composer 2.6.5, MySQL 8.0.36, Nginx 1.26.3,
 Node 22.14.0. Symfony, Doctrine y Encore conservan las versiones de los locks.

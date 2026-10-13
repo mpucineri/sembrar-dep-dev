@@ -12,6 +12,10 @@ RUN apt-get update \
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 COPY build/php/dev.ini /usr/local/etc/php/conf.d/sembrar-dev.ini
+COPY build/php/dev-fpm.conf /usr/local/etc/php-fpm.d/zz-sembrar-dev.conf
+COPY build/php/dev-entrypoint.sh /usr/local/bin/sembrar-dev-entrypoint
+RUN chmod +x /usr/local/bin/sembrar-dev-entrypoint
 
 WORKDIR /var/www/symfony
+ENTRYPOINT ["sembrar-dev-entrypoint"]
 CMD ["php-fpm"]

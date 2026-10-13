@@ -33,6 +33,7 @@ services:
       WKHTMLTOPDF_PATH: /usr/bin/wkhtmltopdf
       WKHTMLTOIMAGE_PATH: /usr/bin/wkhtmltoimage
       COMPOSER_HOME: /tmp/composer
+      COMPOSER_ALLOW_SUPERUSER: "1"
       COMPOSER_CACHE_DIR: /composer-cache
       DEV_ADMIN_EMAIL: "${DEV_ADMIN_EMAIL:-admin@sembrar.local}"
       DEV_ADMIN_PASSWORD: "${DEV_ADMIN_PASSWORD:-sembrar-dev}"

@@ -3,3 +3,5 @@
 !build/
 !build/php/
 !build/php/dev.ini
+!build/php/dev-fpm.conf
+!build/php/dev-entrypoint.sh
